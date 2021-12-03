@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -78,7 +79,7 @@ func sudokuHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		var b Board
-		b.SourceFile = "board.txt"
+		b.SourceFile = filepath.Join("codebase", "board.txt")
 		err := b.Load()
 		if err != nil {
 			log.Fatal(err)
@@ -90,7 +91,7 @@ func sudokuHandler(w http.ResponseWriter, r *http.Request) {
 		templates.ExecuteTemplate(w, "board.gohtml", b.Chunks)
 	case "POST":
 		var b Board
-		b.SourceFile = "board.txt"
+		b.SourceFile = filepath.Join("codebase", "board.txt")
 		err := b.ParseForm(r)
 		if err != nil {
 			log.Fatal(err)
